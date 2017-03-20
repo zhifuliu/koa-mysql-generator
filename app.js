@@ -8,7 +8,7 @@ var app = require('koa')(),
 var index = require('./routes/index'),
     users = require('./routes/users');
 
-// global middlewares
+// 全局中间件
 app.use(views('views', {
     root: __dirname + '/views',
     default: 'jade'
@@ -26,15 +26,15 @@ app.use(function*(next) {
 
 app.use(require('koa-static')(__dirname + '/public'));
 
-// routes definition
+// 路由定义
 koa.use('/', index.routes(), index.allowedMethods());
 koa.use('/users', users.routes(), users.allowedMethods());
 
-// mount root routes
+// 挂载根路由
 app.use(koa.routes());
 
 app.on('error', function(err, ctx) {
-    logger.error('server error', err, ctx);
+    logger.error('服务器错误，错误信息：\n', err, '\n 错误上下文：\n', ctx, '\n');
 });
 
 module.exports = app;
